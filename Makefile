@@ -1,15 +1,14 @@
-SRCS		=	srcs/philosophers.c	\
-				srcs/parsing/argv.c	\
+SRCS		=	srcs/libasm.c			\
 
-OBJS		=	$(SRCS:.c=.o)
+OBJS		=	$(SRCS:.c=.o) #.s
 
 CC			=	cc
 
 RM			=	rm -f
 
-CFLAGS		=	-Wall -Wextra -Werror
+#CFLAGS		=	-Wall -Wextra -Werror
 
-NAME		=	libasm
+NAME		=	prog
 
 all:		$(NAME)
 
