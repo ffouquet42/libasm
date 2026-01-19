@@ -33,7 +33,7 @@ int	testing_strlen(int test_number) // add proto .h?
 	// on rempli une matrice globale et a la toute fin du main on affiche le bilan
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv) // void?
 {
 	// dev
 	printf(RED "color red\n");
@@ -43,11 +43,12 @@ int	main(int argc, char **argv)
 	printf(MAGENTA "color magenta\n");
 	printf(CYAN "color cyan\n");
 	printf(WHITE "color white\n");
-
 	printf("\n");
 	// dev
 
 	int	test_number = 1; // static / global ?
 
 	test_number = testing_strlen(test_number); // += i
+
+	// return
 }
