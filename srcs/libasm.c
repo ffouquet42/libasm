@@ -18,7 +18,7 @@ static int summary[2][16];
 
 static void print_summary(int max_x)
 {
-	printf(YELLOW "\n*** Summary ***\n" WHITE);
+	printf(YELLOW "\n*** Summary ***\n\n" WHITE);
 
 	int x = 0;
 	int test_nb = 1;
@@ -97,7 +97,10 @@ int	main(void)
 
 	testing_strlen(++x);
 	testing_strcpy(++x);
-
+	//
+	//
+	//
+	//
 	print_summary(++x);
 
 	return (0);
