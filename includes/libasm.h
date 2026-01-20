@@ -30,7 +30,6 @@ int		main(void);
 
 //----------------- asm ----------------//
 size_t	ft_strlen(const char *s);
-char	*ft_strcpy(char * dst, const char * src);
-
+char	*ft_strcpy(char *dest, const char *src);
 
 #endif

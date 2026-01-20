@@ -12,26 +12,26 @@ static const char	*test_strings[] = {
     "			", // 3 tabs
     " 	 	 	", // mix 3 spaces + 3 tabs
 	NULL
- };
+};
 
 static int summary[2][16];
 
-static void print_summary(void)
+static void print_summary(int max_x)
 {
 	printf(YELLOW "\n*** Summary ***\n" WHITE);
 
 	int x = 0;
-	int i = 0;
 	int test_nb = 1;
 
-	while (x < 2)
+	while (x < max_x)
 	{
+		int i = 0;
 		while (summary[x][i] != 2)
 		{
 			if (summary[x][i] == 0)
-				printf(GREEN "#%d[OK]" WHITE "|", test_nb++);
+				printf(GREEN "#%i[OK]" WHITE "|", test_nb++);
 			else
-				printf(RED "#%d[OK]" WHITE "|", test_nb++);
+				printf(RED "#%i[OK]" WHITE "|", test_nb++);
 			i++;
 		}
 		x++;
@@ -40,16 +40,32 @@ static void print_summary(void)
 	return;
 }
 
-static void	testing_strcpy(void)
+static void	testing_strcpy(int x)
 {
 	printf(YELLOW "\n*** Testing | ft_strcpy ***\n" WHITE);
 
-	// dev
+	int i = -1;
+	char dest_1[1000];
+	char dest_2[1000];
 
+	while (test_strings[++i])
+	{
+		printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
+		printf("String    = [" CYAN "%s" WHITE "]\n", test_strings[i]);
+		printf("strcpy    = [%s]\n", strcpy(dest_1, test_strings[i]));
+		printf("ft_strcpy = [%s]\n", ft_strcpy(dest_2, test_strings[i]));
+		strcmp(dest_1, dest_2) ? printf("Result    = " RED "[KO]" WHITE "\n") : printf("Result    = " GREEN "[OK]" WHITE "\n");
+		if (strcmp(dest_1, dest_2))
+			summary[x][i] = 1;
+		else
+			summary[x][i] = 0;
+	}
+
+	summary[x][i] = 2;
 	return;
 }
 
-static void	testing_strlen(void)
+static void	testing_strlen(int x)
 {
 	printf(YELLOW "\n*** Testing | ft_strlen ***\n" WHITE);
 
@@ -62,36 +78,27 @@ static void	testing_strlen(void)
 
 		printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
 		printf("String    = [" CYAN "%s" WHITE "]\n", test_strings[i]);
-		printf("strlen    = %zu\n", res_strlen);
-		printf("ft_strlen = %zu\n", res_ft_strlen);
+		printf("strlen    = [%zu]\n", res_strlen);
+		printf("ft_strlen = [%zu]\n", res_ft_strlen);
 		res_strlen == res_ft_strlen ? printf("Result    = " GREEN "[OK]" WHITE "\n") : printf("Result    = " RED "[KO]" WHITE "\n");
 		if (res_strlen == res_ft_strlen)
-			summary[0][i] = 0;
+			summary[x][i] = 0;
 		else
-			summary[0][i] = 1;
+			summary[x][i] = 1;
 	}
 
-	summary[0][i] = 2;
+	summary[x][i] = 2;
 	return;
 }
 
 int	main(void)
 {
-	// dev
-	printf(RED "color red\n");
-	printf(GREEN "color green\n");
-	printf(YELLOW "color yellow\n");
-	printf(BLUE "color blue\n");
-	printf(MAGENTA "color magenta\n");
-	printf(CYAN "color cyan\n");
-	printf(WHITE "color white\n");
-	printf("\n");
-	// dev
-	
-	testing_strlen();
-	testing_strcpy();
+	int x = -1;
 
-	print_summary();
+	testing_strlen(++x);
+	testing_strcpy(++x);
+
+	print_summary(++x);
 
 	return (0);
 }
