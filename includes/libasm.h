@@ -26,9 +26,11 @@
 //**********************************************//
 
 //----------------- libasm.c ----------------//
-int		main(int argc, char **argv);
+int		main(void);
 
-//----------------- ft_strlen.s ----------------//
+//----------------- asm ----------------//
 size_t	ft_strlen(const char *s);
+char	*ft_strcpy(char * dst, const char * src);
+
 
 #endif

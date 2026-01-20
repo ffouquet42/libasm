@@ -1,22 +1,61 @@
 #include "../includes/libasm.h"
 
-int	testing_strlen(int test_number) // add proto .h?
+static int	test_number = 1;
+
+static const char	*test_strings[] = {
+    "Hello World!",
+    "",
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "42",
+    "abc\0def",
+    "           ", // 11 spaces
+    "			", // 3 tabs
+    " 	 	 	", // mix 3 spaces + 3 tabs
+	NULL
+ };
+
+static int summary[2][16];
+
+static void print_summary(void)
 {
-	printf(YELLOW "*** Testing | ft_strlen ***\n" WHITE);
+	printf(YELLOW "\n*** Summary ***\n" WHITE);
 
-	const char *test_strings[] = {
-        "Hello World!",
-        "",
-        // add long one
-        "42",
-        "abc\0def",
-        "           ", // 11 spaces
-        "			", // 3 tabs
-        " 	 	 	", // mix 3 spaces + 3 tabs
-		NULL
-    };
+	int x = 0;
+	int i = 0;
+	int test_nb = 1;
 
-	for (int i = 0; test_strings[i]; i++)
+	while (x < 2)
+	{
+		while (summary[x][i] != 2)
+		{
+			if (summary[x][i] == 0)
+				printf(GREEN "#%d[OK]" WHITE "|", test_nb++);
+			else
+				printf(RED "#%d[OK]" WHITE "|", test_nb++);
+			i++;
+		}
+		x++;
+	}
+	printf("\n");
+	return;
+}
+
+static void	testing_strcpy(void)
+{
+	printf(YELLOW "\n*** Testing | ft_strcpy ***\n" WHITE);
+
+	// dev
+
+	return;
+}
+
+static void	testing_strlen(void)
+{
+	printf(YELLOW "\n*** Testing | ft_strlen ***\n" WHITE);
+
+	int i = -1;
+
+	while (test_strings[++i])
 	{
 		size_t res_strlen = strlen(test_strings[i]);
 		size_t res_ft_strlen = ft_strlen(test_strings[i]);
@@ -25,15 +64,18 @@ int	testing_strlen(int test_number) // add proto .h?
 		printf("String    = [" CYAN "%s" WHITE "]\n", test_strings[i]);
 		printf("strlen    = %zu\n", res_strlen);
 		printf("ft_strlen = %zu\n", res_ft_strlen);
-		res_strlen == res_ft_strlen ? printf("Result    = " GREEN "OK" WHITE "\n") : printf("Result    = " RED "KO " WHITE "\n");
+		res_strlen == res_ft_strlen ? printf("Result    = " GREEN "[OK]" WHITE "\n") : printf("Result    = " RED "[KO]" WHITE "\n");
+		if (res_strlen == res_ft_strlen)
+			summary[0][i] = 0;
+		else
+			summary[0][i] = 1;
 	}
 
-	return (test_number);
-	// compter les OK/KO et rendre le bilan ou juste afficher un bilan OK KO propre a la fin de la serie de test ou alors a la toute toute fin ? genre une matrice de 0 et de 1 ?
-	// on rempli une matrice globale et a la toute fin du main on affiche le bilan
+	summary[0][i] = 2;
+	return;
 }
 
-int	main(int argc, char **argv) // void?
+int	main(void)
 {
 	// dev
 	printf(RED "color red\n");
@@ -45,10 +87,11 @@ int	main(int argc, char **argv) // void?
 	printf(WHITE "color white\n");
 	printf("\n");
 	// dev
+	
+	testing_strlen();
+	testing_strcpy();
 
-	int	test_number = 1; // static / global ?
+	print_summary();
 
-	test_number = testing_strlen(test_number); // += i
-
-	// return
+	return (0);
 }
