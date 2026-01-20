@@ -19,7 +19,7 @@ int	testing_strlen(int test_number) // add proto .h?
 	for (int i = 0; test_strings[i]; i++)
 	{
 		size_t res_strlen = strlen(test_strings[i]);
-		size_t res_ft_strlen = 0; // ft_strlen
+		size_t res_ft_strlen = ft_strlen(test_strings[i]);
 
 		printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
 		printf("String    = [" CYAN "%s" WHITE "]\n", test_strings[i]);

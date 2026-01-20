@@ -1,19 +1,38 @@
-SRCS		=	srcs/libasm.c			\
+C_SRCS		=	srcs/libasm.c			\
 
-OBJS		=	$(SRCS:.c=.o) #.s
+ASM_SRCS	=	srcs/asm/ft_strlen.s	\
+
+C_OBJS		=	$(C_SRCS:.c=.o)
+ASM_OBJS	=	$(ASM_SRCS:.s=.o)
+
+OBJS		=	$(C_OBJS) $(ASM_OBJS)
 
 CC			=	cc
-
+NASM		=	nasm
 RM			=	rm -f
 
 #CFLAGS		=	-Wall -Wextra -Werror
+#asm flag
 
-NAME		=	prog
+NAME		=	prog #libasm.a
 
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+
+# Compilation C
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+# Compilation ASM (64-bit, format ELF)
+#%.o: %.s
+#	$(NASM) -f elf64 $< -o $@
+
+# Compilation ASM (MACOS)
+%.o: %.s
+	$(NASM) -f macho64 $< -o $@
+
 
 clean:
 	$(RM) $(OBJS)
