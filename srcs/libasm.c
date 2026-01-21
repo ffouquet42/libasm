@@ -16,6 +16,7 @@ static const char	*test_strings[] = {
 
 static int summary[2][16];
 
+// print all tests results
 static void print_summary(int max_x)
 {
 	printf(YELLOW "\n*** Summary ***\n\n" WHITE);
@@ -93,15 +94,15 @@ static void	testing_strlen(int x)
 
 int	main(void)
 {
-	int x = -1;
+	int x = 0;
 
-	testing_strlen(++x);
-	testing_strcpy(++x);
+	testing_strlen(x++);
+	testing_strcpy(x++);
 	//
 	//
 	//
 	//
-	print_summary(++x);
+	print_summary(x++); // juste x 
 
 	return (0);
 }
