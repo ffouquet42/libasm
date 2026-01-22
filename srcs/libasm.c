@@ -41,6 +41,11 @@ static void print_summary(int max_x)
 	return;
 }
 
+static void testing_strcmp(int x)
+{
+	return;
+}
+
 static void	testing_strcpy(int x)
 {
 	printf(YELLOW "\n*** Testing | ft_strcpy ***\n" WHITE);
@@ -98,7 +103,7 @@ int	main(void)
 
 	testing_strlen(x++);
 	testing_strcpy(x++);
-	//
+	//testing_strcmp(x++);
 	//
 	//
 	//

@@ -2,6 +2,7 @@ C_SRCS		=	srcs/libasm.c			\
 
 ASM_SRCS	=	srcs/asm/ft_strlen.s	\
 				srcs/asm/ft_strcpy.s	\
+				srcs/asm/ft_strcmp.s	\
 
 C_OBJS		=	$(C_SRCS:.c=.o)
 ASM_OBJS	=	$(ASM_SRCS:.s=.o)
