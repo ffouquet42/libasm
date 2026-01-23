@@ -14,7 +14,7 @@ static const char	*test_strings[] = {
 	NULL
 };
 
-static int summary[2][16];
+static int summary[100][100];
 
 // print all tests results
 static void print_summary(int max_x)
@@ -43,6 +43,48 @@ static void print_summary(int max_x)
 
 static void testing_strcmp(int x)
 {
+	printf(YELLOW "\n*** Testing | ft_strcmp 1/2 ***\n" WHITE);
+
+	int i = -1;
+	int y = 0;
+
+	while (test_strings[++i])
+	{
+		int res_strcmp = strcmp(test_strings[i], test_strings[i]);
+		int res_ft_strcmp = ft_strcmp(test_strings[i], test_strings[i]);
+
+		printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
+		printf("Strings   = [" CYAN "%s" WHITE "] - [" CYAN "%s" WHITE "]\n", test_strings[i], test_strings[i]);
+		printf("strcmp    = [%i]\n", res_strcmp);
+		printf("ft_strcmp = [%i]\n", res_ft_strcmp);
+		res_strcmp == res_ft_strcmp ? printf("Result    = " GREEN "[OK]" WHITE "\n") : printf("Result    = " RED "[KO]" WHITE "\n");
+		if (res_strcmp == res_ft_strcmp)
+			summary[x][y++] = 0;
+		else
+			summary[x][y++] = 1;
+	}
+
+	printf(YELLOW "\n*** Testing | ft_strcmp 2/2 ***\n" WHITE);
+
+	i = 0;
+
+	while (test_strings[++i])
+	{
+		int res_strcmp = strcmp(test_strings[i], test_strings[i - 1]);
+		int res_ft_strcmp = ft_strcmp(test_strings[i], test_strings[i - 1]);
+
+		printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
+		printf("Strings   = [" CYAN "%s" WHITE "] - [" CYAN "%s" WHITE "]\n", test_strings[i], test_strings[i - 1]);
+		printf("strcmp    = [%i]\n", res_strcmp);
+		printf("ft_strcmp = [%i]\n", res_ft_strcmp);
+		res_strcmp == res_ft_strcmp ? printf("Result    = " GREEN "[OK]" WHITE "\n") : printf("Result    = " RED "[KO]" WHITE "\n");
+		if (res_strcmp == res_ft_strcmp)
+			summary[x][y++] = 0;
+		else
+			summary[x][y++] = 1;
+	}
+
+	summary[x][y] = 2;
 	return;
 }
 
@@ -103,11 +145,11 @@ int	main(void)
 
 	testing_strlen(x++);
 	testing_strcpy(x++);
-	//testing_strcmp(x++);
+	testing_strcmp(x++);
 	//
 	//
 	//
-	print_summary(x++); // juste x 
+	print_summary(x);
 
 	return (0);
 }
