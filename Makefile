@@ -28,12 +28,12 @@ $(NAME):	$(OBJS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # Compilation ASM (64-bit, format ELF)
-#%.o: %.s
-#	$(NASM) -f elf64 $< -o $@
+%.o: %.s
+	$(NASM) -f elf64 $< -o $@
 
 # Compilation ASM (MACOS)
-%.o: %.s
-	$(NASM) -f macho64 $< -o $@
+#%.o: %.s
+#	$(NASM) -f macho64 $< -o $@
 
 
 clean:
