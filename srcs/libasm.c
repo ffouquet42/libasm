@@ -11,6 +11,8 @@ static const char	*test_strings[] = {
     "           ", // 11 spaces
     "			", // 3 tabs
     " 	 	 	", // mix 3 spaces + 3 tabs
+	"Hello World!\n",
+	"\n",
 	NULL
 };
 
@@ -47,7 +49,10 @@ static void	testing_write(int x)
 
 	int i = 0;
 
-	//
+	ssize_t res_write;
+	ssize_t res_ft_write;
+
+	
 
 	summary[x][i] = 2;
 	return;
