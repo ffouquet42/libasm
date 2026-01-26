@@ -246,3 +246,6 @@ int	main(void)
 
 	return (0);
 }
+
+// make re
+// section .note.GNU-stack noalloc noexec

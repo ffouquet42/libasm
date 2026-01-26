@@ -25,6 +25,8 @@ all:		$(NAME)
 
 $(NAME):	$(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@mkdir srcs/testing
+# var
 
 # Compilation C
 %.o: %.c
@@ -44,6 +46,8 @@ clean:
 
 fclean:		clean
 	$(RM) $(NAME)
+	@rm -rf srcs/testing
+# var
 
 re:			fclean $(NAME)
 
