@@ -47,14 +47,60 @@ static void	testing_write(int x)
 {
 	printf(YELLOW "\n*** Testing | ft_write ***\n" WHITE);
 
-	int i = 0;
+	int y = 0;
+	int i = -1;
 
-	ssize_t res_write;
-	ssize_t res_ft_write;
+	while (test_strings[++i])
+	{
+		printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
+		printf("String    = [" CYAN "%s" WHITE "]\n", test_strings[i]);
+		errno = 0;
+		ssize_t res_write = write(1, test_strings[i], strlen(test_strings[i]));
+		printf("\nwrite     = [%zd] | errno = [%d]\n", res_write, errno);
+		int write_errno = errno;
+		errno = 0;
+		ssize_t res_ft_write = ft_write(1, test_strings[i], strlen(test_strings[i]));
+		printf("\nft_write  = [%zd] | errno = [%d]\n", res_ft_write, errno);
+		int ft_write_errno = errno;
+		if (res_write == res_ft_write && write_errno == ft_write_errno)
+		{
+			printf("Result    = " GREEN "[OK]" WHITE "\n");
+			summary[x][y++] = 0;
+		}
+		else
+		{
+			printf("Result    = " RED "[KO]" WHITE "\n");
+			summary[x][y++] = 1;
+		}
+	}
 
-	
+	i = -1;
 
-	summary[x][i] = 2;
+	while (test_strings[++i])
+	{
+		printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
+		printf("String    = [" CYAN "%s" WHITE "]\n", test_strings[i]);
+		errno = 0;
+		ssize_t res_write = write(-1, test_strings[i], strlen(test_strings[i]));
+		printf("\nwrite     = [%zd] | errno = [%d]\n", res_write, errno);
+		int write_errno = errno;
+		errno = 0;
+		ssize_t res_ft_write = ft_write(-1, test_strings[i], strlen(test_strings[i]));
+		printf("\nft_write  = [%zd] | errno = [%d]\n", res_ft_write, errno);
+		int ft_write_errno = errno;
+		if (res_write == res_ft_write && write_errno == ft_write_errno)
+		{
+			printf("Result    = " GREEN "[OK]" WHITE "\n");
+			summary[x][y++] = 0;
+		}
+		else
+		{
+			printf("Result    = " RED "[KO]" WHITE "\n");
+			summary[x][y++] = 1;
+		}
+	}
+
+	summary[x][y] = 2;
 	return;
 }
 
