@@ -149,6 +149,66 @@ static void	testing_read(int x)
 		summary[x][y++] = 1;
 	}
 
+	// *********************************************************
+
+	printf(YELLOW "\n*** Testing | ft_read 3/3 (stdin fd=0)***\n" WHITE);
+
+	if (lseek(0, 0, SEEK_CUR) == -1 && errno == ESPIPE)
+	{
+   	 	printf("Skipped until < file\n");
+    	summary[x][y] = 2;
+		// close ou errno a clean?
+		return;
+	}
+
+	printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
+
+	errno = 0;
+	res_read = read(0, buff_read, sizeof(buff_read) - 1);
+	int stdin_read_errno = errno;
+
+	if (res_read >= 0)
+    	buff_read[res_read] = '\0';
+
+	printf("read      = [%zd] | errno = [%d] | buff = [%s]\n",
+    	res_read, stdin_read_errno, (res_read >= 0 ? buff_read : ""));
+
+
+	if (lseek(0, 0, SEEK_SET) == (off_t)-1)
+	{
+    	printf(RED "Warning: stdin is not seekable (pipe/terminal). "
+               "Run the tester with: ./tester < somefile\n" WHITE);
+	}
+
+	errno = 0;
+	res_ft_read = ft_read(0, buff_ft_read, sizeof(buff_ft_read) - 1);
+	int stdin_ft_errno = errno;
+
+	if (res_ft_read >= 0)
+    	buff_ft_read[res_ft_read] = '\0';
+
+	printf("ft_read   = [%zd] | errno = [%d] | buff = [%s]\n", res_ft_read, stdin_ft_errno, (res_ft_read >= 0 ? buff_ft_read : ""));
+
+	if (lseek(0, 0, SEEK_SET) == (off_t)-1)
+	{
+    	/* idem, mais ce reset n'est pas indispensable après */
+	}
+
+	if (res_read == res_ft_read
+    	&& stdin_read_errno == stdin_ft_errno
+    	&& (res_read < 0 || memcmp(buff_read, buff_ft_read, (size_t)res_read) == 0))
+	{
+   		printf("Result    = " GREEN "[OK]" WHITE "\n");
+    	summary[x][y++] = 0;
+	}
+	else
+	{
+    	printf("Result    = " RED "[KO]" WHITE "\n");
+    	summary[x][y++] = 1;
+	}
+	
+	// *********************************************************
+
 
 	summary[x][y] = 2;
 	return;
@@ -351,8 +411,8 @@ int	main(void)
 	testing_strcpy(x++);
 	testing_strcmp(x++);
 	testing_write(x++);
-	testing_read(x++);
 	testing_strdup(x++);
+	testing_read(x++);
 	print_summary(x);
 
 	return (0);
