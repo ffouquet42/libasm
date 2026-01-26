@@ -43,6 +43,42 @@ static void print_summary(int max_x)
 	return;
 }
 
+static void	testing_strdup(int x)
+{
+	printf(YELLOW "\n*** Testing | ft_strdup ***\n" WHITE);
+
+	int i = -1;
+
+	while (test_strings[++i])
+	{
+		char *res_strdup = strdup(test_strings[i]);
+		char *res_ft_strdup = ft_strdup(test_strings[i]);
+
+		printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
+
+		printf("String    = [" CYAN "%s" WHITE "]\n", test_strings[i]);
+		printf("strdup    = [%s]\n", res_strdup);
+		printf("ft_strdup = [%s]\n", res_ft_strdup);
+
+		strcmp(res_strdup, res_ft_strdup) ? printf("Result    = " RED "[KO]" WHITE "\n") : printf("Result    = " GREEN "[OK]" WHITE "\n");
+		if (strcmp(res_strdup, res_ft_strdup))
+			summary[x][i] = 1;
+		else
+			summary[x][i] = 0;
+		
+		free(res_strdup);
+		free(res_ft_strdup);
+	}
+
+	summary[x][i] = 2;
+	return;
+}
+
+static void	testing_read(int x)
+{
+	return;
+}
+
 static void	testing_write(int x)
 {
 	printf(YELLOW "\n*** Testing | ft_write 1/3 ***\n" WHITE);
@@ -241,11 +277,12 @@ int	main(void)
 	testing_strcmp(x++);
 	testing_write(x++);
 	//
-	//
+	testing_strdup(x++);
 	print_summary(x);
 
 	return (0);
 }
 
-// make re
-// section .note.GNU-stack noalloc noexec
+// ----------------------------------------------
+// make re ->
+// section .note.GNU-stack noalloc noexec nowrite progbits
