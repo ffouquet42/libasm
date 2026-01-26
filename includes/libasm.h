@@ -9,6 +9,8 @@
 # include <string.h>
 # include <unistd.h>
 # include <errno.h>
+# include <fcntl.h>
+
 
 //**********************************************//
 //					DEFINES						//
@@ -22,6 +24,7 @@
 # define MAGENTA    "\033[0;35m"
 # define CYAN       "\033[0;36m"
 # define WHITE      "\033[0;37m"
+
 
 //**********************************************//
 //					PROTOTYPES					//

@@ -4,19 +4,17 @@ extern  __errno_location
 section .text
 
 ft_write:
-    mov     rax, 1
+    mov rax, 1
     syscall
-    test    rax, rax
-    jns     .ok
 
-    mov     edi, eax
-    neg     edi
+	cmp rax, 0
+	jl .exit_error
+	ret
 
-    sub     rsp, 8
-    call    __errno_location wrt ..plt
-    add     rsp, 8
-
-    mov     dword [rax], edi
-    mov     eax, -1
-.ok:
-    ret
+.exit_error:
+	neg rax
+	mov r8, rax
+	call __errno_location wrt ..plt
+	mov [rax], r8
+	mov rax, -1
+	ret

@@ -19,6 +19,8 @@ RM			=	rm -f
 
 NAME		=	prog #libasm.a
 
+# creer dossier testing au make et delete fichiers dedans au clean
+
 all:		$(NAME)
 
 $(NAME):	$(OBJS)

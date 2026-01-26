@@ -45,7 +45,7 @@ static void print_summary(int max_x)
 
 static void	testing_write(int x)
 {
-	printf(YELLOW "\n*** Testing | ft_write ***\n" WHITE);
+	printf(YELLOW "\n*** Testing | ft_write 1/3 ***\n" WHITE);
 
 	int y = 0;
 	int i = -1;
@@ -74,6 +74,8 @@ static void	testing_write(int x)
 		}
 	}
 
+	printf(YELLOW "\n*** Testing | ft_write 2/3 ***\n" WHITE);
+
 	i = -1;
 
 	while (test_strings[++i])
@@ -100,6 +102,34 @@ static void	testing_write(int x)
 		}
 	}
 
+	printf(YELLOW "\n*** Testing | ft_write 3/3 ***\n" WHITE);
+	
+	printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
+	printf("String    = [" CYAN "%s" WHITE "]\n", test_strings[8]);
+	errno = 0;
+	int fd = open("srcs/testing/ft_write_testing.txt", O_CREAT | O_WRONLY, 0644);
+	if (fd < 0)
+		return (perror("error")); // msg
+	ssize_t res_write = write(fd, test_strings[8], strlen(test_strings[8]));
+	printf("\nwrite     = [%zd] | errno = [%d]\n", res_write, errno);
+	int write_errno = errno;
+	errno = 0;
+	ssize_t res_ft_write = ft_write(fd, test_strings[8], strlen(test_strings[8]));
+	printf("\nft_write  = [%zd] | errno = [%d]\n", res_ft_write, errno);
+	int ft_write_errno = errno;
+	if (res_write == res_ft_write && write_errno == ft_write_errno)
+	{
+		printf("Result    = " GREEN "[OK]" WHITE "\n");
+		summary[x][y++] = 0;
+	}
+	else
+	{
+		printf("Result    = " RED "[KO]" WHITE "\n");
+		summary[x][y++] = 1;
+	}
+	close(fd);
+	
+	errno = 0;
 	summary[x][y] = 2;
 	return;
 }
