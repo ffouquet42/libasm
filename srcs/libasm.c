@@ -5,7 +5,7 @@ static int	test_number = 1;
 static const char	*test_strings[] = {
     "Hello World!",
     "",
-    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "zaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
     "42",
     "abc\0def",
     "           ", // 11 spaces
@@ -76,6 +76,81 @@ static void	testing_strdup(int x)
 
 static void	testing_read(int x)
 {
+	int y = 0; // i
+
+	// buff > file - est ce que buff est le bon terme
+	printf(YELLOW "\n*** Testing | ft_read 1/2***\n" WHITE);
+
+	int fd = open("srcs/testing/ft_read_testing_1.txt", O_RDONLY);
+	if (fd < 0)
+		return (perror("error")); // msg
+	
+	char buff_read[1000]; // test 1, 2 or empty file
+	char buff_ft_read[1000]; // buff size
+	
+	printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
+
+	ssize_t res_read = read(fd, buff_read, sizeof(buff_read) - 1);
+	if (res_read < 0) // if (res_read)?
+	{
+		close(fd);
+		return (perror("error")); // 1 ligne ?
+	}
+	buff_read[res_read] = '\0';
+	printf("read      = [%zd] | buff = [%s]\n", res_read, buff_read);
+
+	lseek(fd, 0, SEEK_SET);
+
+	ssize_t res_ft_read = ft_read(fd, buff_ft_read, sizeof(buff_ft_read) - 1);
+	if (res_ft_read < 0)
+	{
+		close(fd);
+		return (perror("error"));
+	}
+	buff_ft_read[res_ft_read] = '\0';
+
+	printf("ft_read   = [%zd] | buff = [%s]\n", res_ft_read, buff_ft_read);
+
+	lseek(fd, 0, SEEK_SET);
+
+	if (res_read == res_ft_read && strcmp(buff_read, buff_ft_read) == 0)
+	{
+		printf("Result    = " GREEN "[OK]" WHITE "\n");
+		summary[x][y++] = 0;
+	}
+	else
+	{
+		printf("Result    = " RED "[KO]" WHITE "\n");
+			summary[x][y++] = 1;
+	}
+	close(fd);
+
+	
+	printf(YELLOW "\n*** Testing | ft_read 2/2***\n" WHITE);
+
+	printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
+	errno = 0;
+	res_read = read(-1, buff_read, sizeof(buff_read) - 1);
+	printf("read      = [%zd] | errno = [%d]\n", res_read, errno);
+	int read_errno = errno;
+	errno = 0;
+	res_ft_read = ft_read(-1, buff_ft_read, sizeof(buff_ft_read) - 1);
+	printf("ft_read   = [%zd] | errno = [%d]\n", res_ft_read, errno);
+	int ft_read_errno = errno;
+	errno = 0;
+	if (res_read == res_ft_read && read_errno == ft_read_errno)
+	{
+		printf("Result    = " GREEN "[OK]" WHITE "\n");
+		summary[x][y++] = 0;
+	}
+	else
+	{
+		printf("Result    = " RED "[KO]" WHITE "\n");
+		summary[x][y++] = 1;
+	}
+
+
+	summary[x][y] = 2;
 	return;
 }
 
@@ -145,7 +220,7 @@ static void	testing_write(int x)
 	errno = 0;
 	int fd = open("srcs/testing/ft_write_testing.txt", O_CREAT | O_WRONLY, 0644);
 	if (fd < 0)
-		return (perror("error")); // msg
+		return (perror("error")); // msg - close ?
 	ssize_t res_write = write(fd, test_strings[8], strlen(test_strings[8]));
 	printf("\nwrite     = [%zd] | errno = [%d]\n", res_write, errno);
 	int write_errno = errno;
@@ -276,7 +351,7 @@ int	main(void)
 	testing_strcpy(x++);
 	testing_strcmp(x++);
 	testing_write(x++);
-	//
+	testing_read(x++);
 	testing_strdup(x++);
 	print_summary(x);
 

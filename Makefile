@@ -4,6 +4,7 @@ ASM_SRCS	=	srcs/asm/ft_strlen.s	\
 				srcs/asm/ft_strcpy.s	\
 				srcs/asm/ft_strcmp.s	\
 				srcs/asm/ft_write.s		\
+				srcs/asm/ft_read.s		\
 				srcs/asm/ft_strdup.s	\
 
 C_OBJS		=	$(C_SRCS:.c=.o)
@@ -26,8 +27,6 @@ all:		$(NAME)
 
 $(NAME):	$(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@mkdir srcs/testing
-# var
 
 # Compilation C
 %.o: %.c
@@ -47,7 +46,7 @@ clean:
 
 fclean:		clean
 	$(RM) $(NAME)
-	@rm -rf srcs/testing
+	@rm -rf srcs/testing/ft_write_testing.txt
 # var
 
 re:			fclean $(NAME)
