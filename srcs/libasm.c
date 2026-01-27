@@ -324,11 +324,17 @@ static void testing_strcmp(int x)
 		printf("Strings   = [" CYAN "%s" WHITE "] - [" CYAN "%s" WHITE "]\n", test_strings[i], test_strings[i - 1]);
 		printf("strcmp    = [%i]\n", res_strcmp);
 		printf("ft_strcmp = [%i]\n", res_ft_strcmp);
-		res_strcmp == res_ft_strcmp ? printf("Result    = " GREEN "[OK]" WHITE "\n") : printf("Result    = " RED "[KO]" WHITE "\n");
-		if (res_strcmp == res_ft_strcmp)
+
+		if (res_strcmp == res_ft_strcmp || (res_strcmp < 0 && res_ft_strcmp < 0) || (res_strcmp > 0 && res_ft_strcmp > 0))
+		{
+			printf("Result    = " GREEN "[OK]" WHITE "\n");
 			summary[x][y++] = 0;
+		}
 		else
+		{
+			printf("Result    = " RED "[KO]" WHITE "\n");
 			summary[x][y++] = 1;
+		}
 	}
 
 	summary[x][y] = 2;
