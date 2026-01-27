@@ -73,7 +73,7 @@ static void	testing_strdup(int x)
 	return;
 }
 
-static void	testing_read(int x)
+static void	testing_read(int x) // ajouter errno / buff au print
 {
 	int i = 0;
 
