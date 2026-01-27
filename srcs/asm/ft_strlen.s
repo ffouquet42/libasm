@@ -1,15 +1,20 @@
-global ft_strlen
-section .text
+; rax = returned value
+; rdi = const char *s
 
-ft_strlen:
-	mov rcx, 0
+global ft_strlen			; Make function globally accessible
+section .text				; Declare text (code) section
 
-.loop:
-	cmp BYTE [rdi + rcx], 0
-	je .end
-	inc rcx
-	jmp .loop
+ft_strlen:					; Function entry point
+	mov rcx, 0				; Initialize counter
+
+.loop:						; Start of loop
+	cmp BYTE [rdi + rcx], 0	; Check for null terminator
+	je .end					; If found, exit loop
+	inc rcx					; Increment counter	
+	jmp .loop				; Repeat
 
 .end:
-	mov rax, rcx
-	ret
+	mov rax, rcx			; Move counter to rax
+	ret						; Return
+
+; section .note.GNU-stack noalloc noexec
