@@ -12,8 +12,8 @@ ft_strcmp:
 	mov al, [rdi + rcx]
 	mov dl, [rsi + rcx]
 
-	cmp al, dl				; if al != dl -> ZF = 0
-	jne .end				; if ZF == 0, jump to end
+	cmp al, dl				; if al == dl -> ZF = 1
+	jne .end				; if ZF != 1, jump to end
 
 	test al, al				; check if al == 0 (null terminator) -> ZF = 1
 	je .end					; if ZF == 1, jump to end
