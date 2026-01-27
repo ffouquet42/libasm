@@ -18,7 +18,6 @@ static const char	*test_strings[] = {
 
 static int summary[100][100];
 
-// print all tests results
 static void print_summary(int max_x)
 {
 	printf(YELLOW "\n*** Summary ***\n\n" WHITE);
@@ -34,7 +33,7 @@ static void print_summary(int max_x)
 			if (summary[x][i] == 0)
 				printf(GREEN "#%i[OK]" WHITE "|", test_nb++);
 			else
-				printf(RED "#%i[OK]" WHITE "|", test_nb++);
+				printf(RED "#%i[KO]" WHITE "|", test_nb++);
 			i++;
 		}
 		x++;
@@ -76,25 +75,26 @@ static void	testing_strdup(int x)
 
 static void	testing_read(int x)
 {
-	int y = 0; // i
+	int i = 0;
 
-	// buff > file - est ce que buff est le bon terme
-	printf(YELLOW "\n*** Testing | ft_read 1/2***\n" WHITE);
+	printf(YELLOW "\n*** Testing | ft_read 1/3***\n" WHITE);
 
-	int fd = open("srcs/testing/ft_read_testing_1.txt", O_RDONLY);
+	int fd = open("srcs/testing/ft_read_testing.txt", O_RDONLY);
 	if (fd < 0)
-		return (perror("error")); // msg
+		return (perror("error"));
+
+	int buff_size = 1000;
 	
-	char buff_read[1000]; // test 1, 2 or empty file
-	char buff_ft_read[1000]; // buff size
+	char buff_read[buff_size];
+	char buff_ft_read[buff_size];
 	
 	printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
 
 	ssize_t res_read = read(fd, buff_read, sizeof(buff_read) - 1);
-	if (res_read < 0) // if (res_read)?
+	if (res_read < 0)
 	{
 		close(fd);
-		return (perror("error")); // 1 ligne ?
+		return (perror("error"));
 	}
 	buff_read[res_read] = '\0';
 	printf("read      = [%zd] | buff = [%s]\n", res_read, buff_read);
@@ -116,17 +116,17 @@ static void	testing_read(int x)
 	if (res_read == res_ft_read && strcmp(buff_read, buff_ft_read) == 0)
 	{
 		printf("Result    = " GREEN "[OK]" WHITE "\n");
-		summary[x][y++] = 0;
+		summary[x][i++] = 0;
 	}
 	else
 	{
 		printf("Result    = " RED "[KO]" WHITE "\n");
-			summary[x][y++] = 1;
+			summary[x][i++] = 1;
 	}
 	close(fd);
 
 	
-	printf(YELLOW "\n*** Testing | ft_read 2/2***\n" WHITE);
+	printf(YELLOW "\n*** Testing | ft_read 2/3***\n" WHITE);
 
 	printf(MAGENTA "\nTest #%i\n" WHITE, test_number++);
 	errno = 0;
@@ -141,23 +141,20 @@ static void	testing_read(int x)
 	if (res_read == res_ft_read && read_errno == ft_read_errno)
 	{
 		printf("Result    = " GREEN "[OK]" WHITE "\n");
-		summary[x][y++] = 0;
+		summary[x][i++] = 0;
 	}
 	else
 	{
 		printf("Result    = " RED "[KO]" WHITE "\n");
-		summary[x][y++] = 1;
+		summary[x][i++] = 1;
 	}
 
-	// *********************************************************
-
-	printf(YELLOW "\n*** Testing | ft_read 3/3 (stdin fd=0)***\n" WHITE);
+	printf(YELLOW "\n*** Testing | ft_read 3/3 ***\n" WHITE);
 
 	if (lseek(0, 0, SEEK_CUR) == -1 && errno == ESPIPE)
 	{
-   	 	printf("Skipped until < file\n");
-    	summary[x][y] = 2;
-		// close ou errno a clean?
+   	 	printf(BLUE "Test skipped: provide file with <\n" WHITE);
+    	summary[x][i] = 2;
 		return;
 	}
 
@@ -165,52 +162,37 @@ static void	testing_read(int x)
 
 	errno = 0;
 	res_read = read(0, buff_read, sizeof(buff_read) - 1);
-	int stdin_read_errno = errno;
+	read_errno = errno;
+	buff_read[res_read] = '\0';
 
-	if (res_read >= 0)
-    	buff_read[res_read] = '\0';
+	printf("read      = [%zd] | errno = [%d]\n", res_read, errno);
 
-	printf("read      = [%zd] | errno = [%d] | buff = [%s]\n",
-    	res_read, stdin_read_errno, (res_read >= 0 ? buff_read : ""));
-
-
+	
 	if (lseek(0, 0, SEEK_SET) == (off_t)-1)
-	{
-    	printf(RED "Warning: stdin is not seekable (pipe/terminal). "
-               "Run the tester with: ./tester < somefile\n" WHITE);
-	}
+		printf(BLUE "Test skipped: provide file with <\n" WHITE);
 
 	errno = 0;
 	res_ft_read = ft_read(0, buff_ft_read, sizeof(buff_ft_read) - 1);
-	int stdin_ft_errno = errno;
+	ft_read_errno = errno;
+	buff_ft_read[res_ft_read] = '\0';
 
-	if (res_ft_read >= 0)
-    	buff_ft_read[res_ft_read] = '\0';
-
-	printf("ft_read   = [%zd] | errno = [%d] | buff = [%s]\n", res_ft_read, stdin_ft_errno, (res_ft_read >= 0 ? buff_ft_read : ""));
+	printf("ft_read   = [%zd] | errno = [%d]\n", res_ft_read, errno);
 
 	if (lseek(0, 0, SEEK_SET) == (off_t)-1)
-	{
-    	/* idem, mais ce reset n'est pas indispensable après */
-	}
+		printf(BLUE "Test skipped: provide file with <\n" WHITE);
 
-	if (res_read == res_ft_read
-    	&& stdin_read_errno == stdin_ft_errno
-    	&& (res_read < 0 || memcmp(buff_read, buff_ft_read, (size_t)res_read) == 0))
+	if (res_read == res_ft_read && read_errno == ft_read_errno)
 	{
    		printf("Result    = " GREEN "[OK]" WHITE "\n");
-    	summary[x][y++] = 0;
+    	summary[x][i++] = 0;
 	}
 	else
 	{
     	printf("Result    = " RED "[KO]" WHITE "\n");
-    	summary[x][y++] = 1;
+    	summary[x][i++] = 1;
 	}
-	
-	// *********************************************************
 
-
-	summary[x][y] = 2;
+	summary[x][i] = 2;
 	return;
 }
 
@@ -411,8 +393,8 @@ int	main(void)
 	testing_strcpy(x++);
 	testing_strcmp(x++);
 	testing_write(x++);
-	testing_strdup(x++);
 	testing_read(x++);
+	testing_strdup(x++);
 	print_summary(x);
 
 	return (0);
