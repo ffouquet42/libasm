@@ -73,7 +73,7 @@ static void	testing_strdup(int x)
 	return;
 }
 
-static void	testing_read(int x) // ajouter errno / buff au print
+static void	testing_read(int x)
 {
 	int i = 0;
 
@@ -97,7 +97,7 @@ static void	testing_read(int x) // ajouter errno / buff au print
 		return (perror("error"));
 	}
 	buff_read[res_read] = '\0';
-	printf("read      = [%zd] | buff = [%s]\n", res_read, buff_read);
+	printf("read      = [%zd] | errno = [%d] | buff = [%s]\n", res_read, errno, buff_read);
 
 	lseek(fd, 0, SEEK_SET);
 
@@ -109,7 +109,7 @@ static void	testing_read(int x) // ajouter errno / buff au print
 	}
 	buff_ft_read[res_ft_read] = '\0';
 
-	printf("ft_read   = [%zd] | buff = [%s]\n", res_ft_read, buff_ft_read);
+	printf("ft_read   = [%zd] | errno = [%d] | buff = [%s]\n", res_ft_read, errno, buff_ft_read);
 
 	lseek(fd, 0, SEEK_SET);
 
@@ -165,7 +165,8 @@ static void	testing_read(int x) // ajouter errno / buff au print
 	read_errno = errno;
 	buff_read[res_read] = '\0';
 
-	printf("read      = [%zd] | errno = [%d]\n", res_read, errno);
+	printf("read      = [%zd] | errno = [%d] | buff = [%s]\n", res_read, errno, buff_read);
+
 
 	
 	if (lseek(0, 0, SEEK_SET) == (off_t)-1)
@@ -176,7 +177,7 @@ static void	testing_read(int x) // ajouter errno / buff au print
 	ft_read_errno = errno;
 	buff_ft_read[res_ft_read] = '\0';
 
-	printf("ft_read   = [%zd] | errno = [%d]\n", res_ft_read, errno);
+	printf("ft_read   = [%zd] | errno = [%d] | buff = [%s]\n", res_ft_read, errno, buff_ft_read);
 
 	if (lseek(0, 0, SEEK_SET) == (off_t)-1)
 		printf(BLUE "Test skipped: provide file with <\n" WHITE);
@@ -399,7 +400,3 @@ int	main(void)
 
 	return (0);
 }
-
-// ----------------------------------------------
-// make re ->
-// section .note.GNU-stack noalloc noexec nowrite progbits

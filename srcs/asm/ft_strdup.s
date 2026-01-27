@@ -10,8 +10,8 @@ extern  ft_strcpy
 section .text
 
 ft_strdup:
-    push rbx					; non-volatile register, save original value on stack
-    mov rbx, rdi				; stock str in rbx (non-volatile register) because rdi will be erased by calls
+    push rbx					; callee-saved register, save original value on stack
+    mov rbx, rdi				; stock str in rbx (callee-saved register) because rdi (caller-saved) will be erased by calls
 
     call ft_strlen				; rax = strlen(str)
     inc rax						; + 1 for null byte
@@ -35,5 +35,5 @@ ft_strdup:
 
 ; section .note.GNU-stack noalloc noexec
 
-; This function makes several calls I need a non-volatile register to keep a value across calls (rbx)
+; This function makes several calls I need a callee-saved register to keep a value across calls (rbx)
 ; I cannot know if it is already used, I save original value on the stack, use it as a local variable, then restore it

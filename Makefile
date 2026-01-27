@@ -1,5 +1,3 @@
-C_SRCS		=	srcs/libasm.c			\
-
 ASM_SRCS	=	srcs/asm/ft_strlen.s	\
 				srcs/asm/ft_strcpy.s	\
 				srcs/asm/ft_strcmp.s	\
@@ -7,48 +5,45 @@ ASM_SRCS	=	srcs/asm/ft_strlen.s	\
 				srcs/asm/ft_read.s		\
 				srcs/asm/ft_strdup.s	\
 
-C_OBJS		=	$(C_SRCS:.c=.o)
 ASM_OBJS	=	$(ASM_SRCS:.s=.o)
 
-OBJS		=	$(C_OBJS) $(ASM_OBJS)
+TEST_SRCS		=	srcs/libasm.c		\
+
+TEST_OBJS		=	$(TEST_SRCS:.c=.o)
 
 CC			=	cc
 NASM		=	nasm
+AR 			=	ar
+ARFLAGS		=	rcs
 RM			=	rm -f
 
-#CFLAGS		=	-Wall -Wextra -Werror
-#asm flag
+CFLAGS		=	-Wall -Wextra -Werror -g
+NASM_FLAGS	=	-f elf64
 
-NAME		=	prog #libasm.a
+NAME		=	libasm.a
+TESTER		=	tester
 
-# creer dossier testing au make et delete fichiers dedans au clean
+all:		$(NAME)	$(TESTER)
 
-all:		$(NAME)
+$(NAME): $(ASM_OBJS)
+	$(AR) $(ARFLAGS) $(NAME) $(ASM_OBJS)
 
-$(NAME):	$(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+$(TESTER):	$(NAME) $(TEST_OBJS)
+	$(CC) $(CFLAGS) $(TEST_OBJS) $(NAME) -o $(TESTER)
 
-# Compilation C
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Compilation ASM (64-bit, format ELF)
 %.o: %.s
-	$(NASM) -f elf64 $< -o $@
-
-# Compilation ASM (MACOS)
-#%.o: %.s
-#	$(NASM) -f macho64 $< -o $@
-
+	$(NASM) $(NASM_FLAGS) $< -o $@
 
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(ASM_OBJS) $(TEST_OBJS)
 
 fclean:		clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(TESTER)
 	@rm -rf srcs/testing/ft_write_testing.txt
-# var
 
-re:			fclean $(NAME)
+re:			fclean all
 
 .PHONY:		all clean fclean re
