@@ -17,7 +17,7 @@ AR 			=	ar
 ARFLAGS		=	rcs
 RM			=	rm -f
 
-CFLAGS		=	-Wall -Wextra -Werror -g
+CFLAGS		=	-Wall -Wextra -Werror
 NASM_FLAGS	=	-f elf64
 
 NAME		=	libasm.a
