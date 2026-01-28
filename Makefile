@@ -23,7 +23,7 @@ NASM_FLAGS	=	-f elf64
 NAME		=	libasm.a
 TESTER		=	tester
 
-all:		$(NAME)	$(TESTER)
+all:		$(NAME)
 
 $(NAME): $(ASM_OBJS)
 	$(AR) $(ARFLAGS) $(NAME) $(ASM_OBJS)
