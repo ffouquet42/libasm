@@ -263,7 +263,7 @@ static void	testing_write(int x)
 	errno = 0;
 	int fd = open("srcs/testing/ft_write_testing.txt", O_CREAT | O_WRONLY, 0644);
 	if (fd < 0)
-		return (perror("error")); // msg - close ?
+		return (perror("error"));
 	ssize_t res_write = write(fd, test_strings[8], strlen(test_strings[8]));
 	printf("\nwrite     = [%zd] | errno = [%d]\n", res_write, errno);
 	int write_errno = errno;
