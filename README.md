@@ -81,6 +81,8 @@ To test the functions and compil with `libasm.c`:
 make tester && ./tester < srcs/testing/ft_read_testing.txt
 ```
 
+You can try `<` with any file or modify the content of `ft_read_testing.txt` or just skip the test by running `./tester` without any file.
+
 ## Testing
 
 The project was tested using:
